@@ -25,3 +25,5 @@ urllib3==1.26.16
 uvicorn==0.23.2
 uvloop==0.17.0
 yarl==1.9.2
+pre-commit==3.3.3
+oitnb==0.2.2

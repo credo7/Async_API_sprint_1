@@ -1,18 +1,32 @@
-import orjson
+import datetime
+import uuid
+from typing import Optional, List
 
-# Используем pydantic для упрощения работы при перегонке данных из json в объекты
 from pydantic import BaseModel
 
-def orjson_dumps(v, *, default):
-    # orjson.dumps возвращает bytes, а pydantic требует unicode, поэтому декодируем
-    return orjson.dumps(v, default=default).decode()
 
 class Film(BaseModel):
-    id: str
-    title: str
-    description: str
+    """
+    Represents a film.
 
-    class Config:
-        # Заменяем стандартную работу с json на более быструю
-        json_loads = orjson.loads
-        json_dumps = orjson_dumps
+    Attributes:
+    - id (UUID): Unique identifier
+    - title (str): The title of the film.
+    - description (Optional[str]): The description of the film (if available).
+    - creation_date (Optional[datetime.date]): The creation date of the film (if available).
+    - source_link (Optional[str]): The source link of the film (if available).
+    - actors (Optional[List[Person]]): List of actors associated with the film (if available).
+    - screen_writers (Optional[List[Person]]): List of screenwriters associated with the film (if available).
+    - directors (Optional[List[Person]]): List of directors associated with the film (if available).
+    - genres (Optional[List[Genre]]): List of genres associated with the film (if available).
+    """
+
+    id: uuid.UUID
+    title: str
+    description: Optional[str]
+    creation_date: Optional[datetime.date]
+    source_link: Optional[str]
+    actors: Optional[List["Person"]]
+    screen_writers: Optional[List["Person"]]
+    directors: Optional[List["Person"]]
+    genres: Optional[List["Genre"]]

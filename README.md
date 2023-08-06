@@ -1,10 +1,12 @@
 # Проектная работа 4 спринта
 
 ### For development setup
-- python -m venv venv
-- . venv/bin/activate
-- pip install -r requirements.txt
-- pre-commit install
+```
+python -m venv venv
+. venv/bin/activate
+pip install -r requirements.txt
+pre-commit install
+```
 
 git репозиторий ( по просьбе яндекс практикума )
 https://github.com/credo7/Async_API_sprint_1

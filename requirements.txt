@@ -29,4 +29,4 @@ yarl==1.9.2
 pre-commit==3.3.3
 oitnb==0.2.2
 tenacity==8.2.2
-psycopg2==2.9.7
+python-dotenv==1.0.0

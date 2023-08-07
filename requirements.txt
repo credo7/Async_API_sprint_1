@@ -16,6 +16,7 @@ idna==3.4
 multidict==6.0.4
 orjson==3.9.2
 pydantic==2.1.1
+pydantic-settings==2.0.1
 pydantic_core==2.4.0
 redis==4.6.0
 sniffio==1.3.0
@@ -27,3 +28,5 @@ uvloop==0.17.0
 yarl==1.9.2
 pre-commit==3.3.3
 oitnb==0.2.2
+tenacity==8.2.2
+psycopg2==2.9.7

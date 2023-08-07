@@ -1,5 +1,4 @@
 tenacity==8.2.2
-python-dotenv==1.0.0
 pydantic==2.1.1
 pydantic-settings==2.0.1
 pydantic_core==2.4.0

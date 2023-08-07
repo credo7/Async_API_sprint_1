@@ -9,10 +9,6 @@ from extract_transform.extract_settings import setup_database_orchester
 from state.storage import RedisStorage
 from state.state import State
 from redis.client import Redis
-from dotenv import load_dotenv
-
-
-load_dotenv('./.env.test')
 
 
 ELASTIC_INDEXES = list(ElasticIndexName)

@@ -24,6 +24,16 @@ class RelatedQuery(BaseQueryBuilder):
         """
 
 
+class GenreTransformQuery(BaseQueryBuilder):
+    def build_query(self) -> str:
+        return """
+        SELECT
+            g.id, g.name, g.description
+            FROM content.genre g
+            WHERE g.id IN :ids
+        """
+
+
 class MoviesTransformQuery(BaseQueryBuilder):
     def build_query(self) -> str:
         return """
@@ -78,6 +88,28 @@ class MoviesTransformQuery(BaseQueryBuilder):
                     GROUP BY fw.id, fw.title, fw.description,
                     fw.rating, fw.type, fw.created_at, fw.updated_at;
                 """
+
+
+class PersonTransformQuery(BaseQueryBuilder):
+    def build_query(self) -> str:
+        return """
+        SELECT p.id,
+            p.full_name,
+            COALESCE(jsonb_agg(film_roles), '[]'::jsonb) AS films
+        FROM content.person p
+        LEFT JOIN (
+            SELECT pfw.person_id,
+            jsonb_build_object(
+               'id', fw.id,
+               'roles', COALESCE(array_agg(DISTINCT pfw.role) FILTER (WHERE pfw.role IS NOT NULL), ARRAY[]::text[])
+            ) AS film_roles
+            FROM content.person_film_work pfw
+            LEFT JOIN content.film_work fw ON fw.id = pfw.film_work_id
+            GROUP BY pfw.person_id, fw.id
+        ) subquery ON subquery.person_id = p.id
+        WHERE p.id IN :ids
+        GROUP BY p.id, p.full_name;
+        """
 
 
 class EarliestUpdateTimeQuery(BaseQueryBuilder):

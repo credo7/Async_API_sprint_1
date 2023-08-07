@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, Optional
 
-from etl.extract_transform.query_builder import BaseQueryBuilder
+from .query_builder import BaseQueryBuilder
 
 
 class TableQuery(Enum):
@@ -38,7 +38,7 @@ class QueryManager:
         self,
         base_table: PostgresTableName,
         queries: Dict[str, BaseQueryBuilder],
-        relative_tables: Dict[str, Optional[IntermediateTable]],
+        relative_tables: Optional[Dict[str, Optional[IntermediateTable]]],
     ):
         self.base_table = base_table
         self.queries = queries
@@ -50,21 +50,18 @@ class QueryManager:
             query = query.format(base_table=table_name.value)
             return query, kwargs
 
-        query = self.queries[TableQuery.RELATED.value].build_query()
-        relative_table = self.relative_tables[table_name.value]
-        query = query.format(
-            base_table=self.base_table.value,
-            relative_table=table_name.value,
-            relative_m2m_table=relative_table.table_name,
-            relative_id=relative_table.relative_id,
-            base_id=relative_table.base_id,
-        )
-        # params = {
-        #     'base_id': relative_table.base_id,
-        #     'relative_id': relative_table.relative_id,
-        # }
-        # params = {**params, **kwargs}
-        return query, kwargs
+        if self.relative_tables and self.relative_tables.get(table_name.value):
+            relative_table = self.relative_tables.get(table_name.value)
+            query = self.queries[TableQuery.RELATED.value].build_query()
+            query = query.format(
+                base_table=self.base_table.value,
+                relative_table=table_name.value,
+                relative_m2m_table=relative_table.table_name,
+                relative_id=relative_table.relative_id,
+                base_id=relative_table.base_id,
+            )
+            return query, kwargs
+        return None, None
 
     def get_earliest_update_query(self) -> str:
         query = self.queries[TableQuery.GET_EARLIEST_UPDATE_TIME.value].build_query()

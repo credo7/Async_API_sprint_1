@@ -2,7 +2,6 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Optional, Union
-from etl.state.state import State
 
 
 @dataclass

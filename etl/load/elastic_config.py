@@ -28,7 +28,7 @@ ELASTIC_PERSON_MAPPING = {
     'dynamic': 'strict',
     'properties': {
         'id': {'type': 'keyword'},
-        'name': {'type': 'text', 'analyzer': 'ru_en',},
+        'full_name': {'type': 'text', 'analyzer': 'ru_en',},
         'films': {
             'type': 'nested',
             'dynamic': 'strict',

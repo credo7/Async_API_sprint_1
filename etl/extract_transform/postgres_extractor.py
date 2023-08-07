@@ -1,13 +1,11 @@
 from dataclasses import fields
-from typing import Iterable, Optional, List, Dict
-
-from etl.load.elastic_config import ElasticIndexName
-from etl.extract_transform.query_builder import BaseQueryBuilder
-from etl.extract_transform.query_manager import PostgresTableName, QueryManager
-from etl.extract_transform.boundaries import DateBoundaries
+from typing import Iterable, Optional, List
+from time_event_decorators.backoff import backoff_public_methods
+from load.elastic_config import ElasticIndexName
+from .query_manager import PostgresTableName, QueryManager
+from .boundaries import DateBoundaries
 from enum import Enum
 from sqlalchemy import create_engine, text
-from etl.env_settings import settings
 
 
 class IExtractor:
@@ -27,15 +25,21 @@ class TableQuery(Enum):
     GET_EARLIEST_UPDATE_TIME = 'get_earliest'
 
 
+@backoff_public_methods()
 class PostgresReceiver(IExtractor, ITransformer):
     def __init__(
-        self, index: ElasticIndexName, query_manager: QueryManager, schema, batch_size=100
+        self,
+        index: ElasticIndexName,
+        query_manager: QueryManager,
+        schema,
+        database_url,
+        batch_size=100,
     ):
         self.index = index
         self.query_manager = query_manager
         self.schema = schema
         self.batch_size = batch_size
-        self.engine = create_engine(settings.database_url)
+        self.engine = create_engine(database_url)
 
     def extract(
         self, table_names: List[PostgresTableName], boundaries: DateBoundaries
@@ -45,6 +49,8 @@ class PostgresReceiver(IExtractor, ITransformer):
             query, params = self.query_manager.build_extract_query(
                 table_name, from_time=boundaries.from_time, till_time=boundaries.till_time
             )
+            if not query or not params:
+                continue
             ids = self._get_ids(query, params)
             unique_target_ids.update(ids)
         return list(unique_target_ids)

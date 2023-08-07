@@ -1,9 +1,9 @@
 import logging
-from typing import Mapping, Any, Optional
+from typing import Optional
 from elasticsearch import Elasticsearch, helpers
-from etl.load.elastic_config import ElasticIndexName
-from etl.time_event_decorators.backoff import backoff_public_methods
-from etl.load.elastic_config import ElasticConfig
+from load.elastic_config import ElasticIndexName
+from time_event_decorators.backoff import backoff_public_methods
+from load.elastic_config import ElasticConfig
 
 
 @backoff_public_methods()

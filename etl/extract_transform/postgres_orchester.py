@@ -26,4 +26,10 @@ class PostgresOrchester:
         minimal_update_points = [
             extractor.get_minimal_update_time() for extractor in self.extractors
         ]
-        return min(minimal_update_points)
+
+        non_none_points = [point for point in minimal_update_points if point is not None]
+
+        if not non_none_points:
+            return None
+
+        return min(non_none_points)

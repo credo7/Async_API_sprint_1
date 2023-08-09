@@ -6,11 +6,11 @@ logging.basicConfig(level=logging.INFO)
 
 
 class Settings(BaseSettings):
-    database_hostname: str
-    database_port: int
-    database_password: str
-    database_name: str
-    database_username: str
+    postgres_host: str
+    postgres_port: int
+    postgres_password: str
+    postgres_db: str
+    postgres_user: str
     redis_host: str
     redis_port: int
     elastic_host: str
@@ -24,11 +24,11 @@ class Settings(BaseSettings):
 
     @property
     def database_url(self):
-        return f'postgresql://{self.database_username}:{self.database_password}@{self.database_hostname}:{self.database_port}/{self.database_name}'
+        return f'postgresql://{self.postgres_user}:{self.postgres_password}@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}'
 
     @property
     def redis_url(self):
         return f'redis://{self.redis_host}:{self.redis_port}/0'
 
     class Config:
-        env_file = '../.env'
+        env_file = '../.env.example'

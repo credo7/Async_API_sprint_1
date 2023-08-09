@@ -20,9 +20,12 @@ services:
     image: postgres:13
     container_name: postgres_test
     volumes:
-      - ${HOME}/postgresql/data:/var/lib/postgresql/data
+      - ./db:/var/lib/postgresql/data
+      - ./schema_design/scripts:/docker-entrypoint-initdb.d
     env_file:
       - ./etl/.env.example
+    ports:
+      - "5432:5432"
     expose:
       - "5432"
     restart: unless-stopped
@@ -49,6 +52,8 @@ services:
       - xpack.security.enabled=false
     volumes:
       - ./esdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
     expose:
       - "9200"
     restart: unless-stopped

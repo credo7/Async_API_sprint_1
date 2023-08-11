@@ -1,10 +1,12 @@
 #!/bin/bash
 
 # Wait for PostgreSQL
-until pg_isready -h postgres_test -U postgres_test; do
+until pg_isready -h postgres_test -U app; do
   echo "Postgres is unavailable - sleeping"
   sleep 1
 done
+
+python sqlite_to_postgres/load_data.py
 
 echo "Postgres is up - proceeding"
 

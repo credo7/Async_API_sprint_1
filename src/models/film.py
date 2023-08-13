@@ -1,8 +1,11 @@
-import datetime
 import uuid
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
+import orjson
+
+from .genre import Genre
+from .person import Person
 
 
 class Film(BaseModel):
@@ -13,20 +16,73 @@ class Film(BaseModel):
     - id (UUID): Unique identifier
     - title (str): The title of the film.
     - description (Optional[str]): The description of the film (if available).
-    - creation_date (Optional[datetime.date]): The creation date of the film (if available).
-    - source_link (Optional[str]): The source link of the film (if available).
+    - imdb_rating (Optional[str]): The rating of the film (if available).
     - actors (Optional[List[Person]]): List of actors associated with the film (if available).
-    - screen_writers (Optional[List[Person]]): List of screenwriters associated with the film (if available).
+    - writers (Optional[List[Person]]): List of writers associated with the film (if available).
     - directors (Optional[List[Person]]): List of directors associated with the film (if available).
     - genres (Optional[List[Genre]]): List of genres associated with the film (if available).
     """
 
-    id: uuid.UUID
+    id: str
     title: str
     description: Optional[str]
-    creation_date: Optional[datetime.date]
-    source_link: Optional[str]
-    actors: Optional[List["Person"]]
-    screen_writers: Optional[List["Person"]]
-    directors: Optional[List["Person"]]
-    genres: Optional[List["Genre"]]
+    imdb_rating: Optional[float]
+    actors: Optional[List[Person]]
+    writers: Optional[List[Person]]
+    directors: Optional[List[Person]]
+    genres: Optional[List[Genre]]
+
+    @staticmethod
+    def parse_from_elastic(document):
+        return Film(
+            id=document['_source']['id'],
+            title=document['_source']['title'],
+            description=document['_source']['description'],
+            imdb_rating=document['_source']['imdb_rating'],
+            actors=[Person(id=person['id'], full_name=person['name']) for person in document['_source']['actors']],
+            writers=[Person(id=person['id'], full_name=person['name']) for person in document['_source']['writers']],
+            directors=[
+                Person(id=None, full_name=director_name)
+                for director_name in document['_source']['director']
+                if director_name is not None
+            ],
+            genres=[Genre(name=genre_name) for genre_name in document['_source']['genre']],
+        )
+
+    @staticmethod
+    def parse_from_redis(film_str: str):
+        film = orjson.loads(film_str)
+
+        print(f'\n\n{film}\n\n', flush=True)
+
+        return Film(
+            id=film['id'],
+            title=film['title'],
+            description=film['description'],
+            imdb_rating=film['imdb_rating'],
+            actors=[
+                Person(id=person['id'], full_name=person['full_name'])
+                for person in film['actors']
+                if person is not None
+            ],
+            writers=[
+                Person(id=person['id'], full_name=person['full_name'])
+                for person in film['writers']
+                if person is not None
+            ],
+            directors=[
+                Person(id=None, full_name=director['full_name'])
+                for director in film['directors']
+                if director is not None
+            ],
+            genres=[Genre(name=genre['name']) for genre in film['genres'] if genre is not None],
+        )
+
+    @field_validator('id', mode='before')
+    @classmethod
+    def validate_uuid(cls, value):
+        try:
+            uuid.UUID(value)
+            return value
+        except ValueError:
+            raise ValueError('Invalid UUID format')

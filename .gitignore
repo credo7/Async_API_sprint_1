@@ -10,7 +10,8 @@ __pycache__/
 
 .idea
 .ds_store
-
+esdata
+db
 
 # Distribution / packaging
 .Python

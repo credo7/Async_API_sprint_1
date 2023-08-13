@@ -1,6 +1,7 @@
 from typing import List, Optional
+import uuid
 
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 
 
 class PersonFilms(BaseModel):
@@ -14,6 +15,30 @@ class PersonFilms(BaseModel):
     roles: List[Optional[str]] = []
 
 
+class MoviePerson(BaseModel):
+    """
+    Represents a person associated with a film.
+
+    Attributes:
+    - id (Str): Unique identifier.
+    - name (str): The name of the person.
+    """
+
+    id: str
+    full_name: str
+
+
+class MoviePersonName(BaseModel):
+    """
+        Represents a short version of person associated with a film.
+
+        Attributes:
+        - name (str): The name of the person.
+        """
+
+    full_name: str
+
+ 
 class Person(BaseModel):
     """
     Represents a person associated with a film.

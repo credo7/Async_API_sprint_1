@@ -12,7 +12,7 @@ class SQLiteExtractor:
             'genre': Genre,
             'person': Person,
             'person_film_work': PersonFilmwork,
-            'genre_film_work': GenreFilmwork
+            'genre_film_work': GenreFilmwork,
         }
         self.cursor = self.connection.cursor()
 

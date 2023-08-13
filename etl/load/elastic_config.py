@@ -32,10 +32,7 @@ ELASTIC_PERSON_MAPPING = {
         'films': {
             'type': 'nested',
             'dynamic': 'strict',
-            'properties': {
-                'id': {'type': 'keyword'},
-                'roles': {'type': 'text', 'analyzer': 'ru_en'},
-            },
+            'properties': {'id': {'type': 'keyword'}, 'roles': {'type': 'text', 'analyzer': 'ru_en'},},
         },
     },
 }
@@ -54,18 +51,12 @@ ELASTIC_MOVIE_MAPPING = {
         'actors': {
             'type': 'nested',
             'dynamic': 'strict',
-            'properties': {
-                'id': {'type': 'keyword'},
-                'name': {'type': 'text', 'analyzer': 'ru_en'},
-            },
+            'properties': {'id': {'type': 'keyword'}, 'name': {'type': 'text', 'analyzer': 'ru_en'},},
         },
         'writers': {
             'type': 'nested',
             'dynamic': 'strict',
-            'properties': {
-                'id': {'type': 'keyword'},
-                'name': {'type': 'text', 'analyzer': 'ru_en'},
-            },
+            'properties': {'id': {'type': 'keyword'}, 'name': {'type': 'text', 'analyzer': 'ru_en'},},
         },
     },
 }
@@ -76,10 +67,7 @@ ELASTIC_INDEX_SETTINGS = {
         'filter': {
             'english_stop': {'type': 'stop', 'stopwords': '_english_'},
             'english_stemmer': {'type': 'stemmer', 'language': 'english'},
-            'english_possessive_stemmer': {
-                'type': 'stemmer',
-                'language': 'possessive_english',
-            },
+            'english_possessive_stemmer': {'type': 'stemmer', 'language': 'possessive_english',},
             'russian_stop': {'type': 'stop', 'stopwords': '_russian_'},
             'russian_stemmer': {'type': 'stemmer', 'language': 'russian'},
         },
@@ -101,19 +89,9 @@ ELASTIC_INDEX_SETTINGS = {
 
 
 ELASTIC_CONFIGS = [
+    ElasticConfig(elastic_index=ElasticIndexName.MOVIE, mapping=ELASTIC_MOVIE_MAPPING, setting=ELASTIC_INDEX_SETTINGS,),
+    ElasticConfig(elastic_index=ElasticIndexName.GENRE, mapping=ELASTIC_GENRE_MAPPING, setting=ELASTIC_INDEX_SETTINGS,),
     ElasticConfig(
-        elastic_index=ElasticIndexName.MOVIE,
-        mapping=ELASTIC_MOVIE_MAPPING,
-        setting=ELASTIC_INDEX_SETTINGS,
-    ),
-    ElasticConfig(
-        elastic_index=ElasticIndexName.GENRE,
-        mapping=ELASTIC_GENRE_MAPPING,
-        setting=ELASTIC_INDEX_SETTINGS,
-    ),
-    ElasticConfig(
-        elastic_index=ElasticIndexName.PERSON,
-        mapping=ELASTIC_PERSON_MAPPING,
-        setting=ELASTIC_INDEX_SETTINGS,
+        elastic_index=ElasticIndexName.PERSON, mapping=ELASTIC_PERSON_MAPPING, setting=ELASTIC_INDEX_SETTINGS,
     ),
 ]

@@ -8,9 +8,7 @@ from load.elastic_config import ElasticConfig
 
 @backoff_public_methods()
 class ElasticLoader:
-    def __init__(
-        self, es_configs: list[ElasticConfig], es_indexes: list[ElasticIndexName], es_url: str,
-    ) -> None:
+    def __init__(self, es_configs: list[ElasticConfig], es_indexes: list[ElasticIndexName], es_url: str,) -> None:
         """
            Initialize the ElasticsearchLoader.
 
@@ -31,9 +29,7 @@ class ElasticLoader:
         """
 
         if es_index not in self.es_indexes:
-            logging.error(
-                'You are trying to load data to non existing index: %s'.format(es_index)
-            )
+            logging.error('You are trying to load data to non existing index: %s'.format(es_index))
             return
         if es_data is None:
             logging.info('You passed empty data to load to: %s'.format(es_index))

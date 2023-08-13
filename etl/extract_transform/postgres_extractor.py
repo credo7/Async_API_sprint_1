@@ -28,12 +28,7 @@ class TableQuery(Enum):
 @backoff_public_methods()
 class PostgresReceiver(IExtractor, ITransformer):
     def __init__(
-        self,
-        index: ElasticIndexName,
-        query_manager: QueryManager,
-        schema,
-        database_url,
-        batch_size=100,
+        self, index: ElasticIndexName, query_manager: QueryManager, schema, database_url, batch_size=100,
     ):
         self.index = index
         self.query_manager = query_manager
@@ -41,9 +36,7 @@ class PostgresReceiver(IExtractor, ITransformer):
         self.batch_size = batch_size
         self.engine = create_engine(database_url)
 
-    def extract(
-        self, table_names: List[PostgresTableName], boundaries: DateBoundaries
-    ) -> Iterable:
+    def extract(self, table_names: List[PostgresTableName], boundaries: DateBoundaries) -> Iterable:
         unique_target_ids = set()
         for table_name in table_names:
             query, params = self.query_manager.build_extract_query(
@@ -83,9 +76,7 @@ class PostgresReceiver(IExtractor, ITransformer):
                 offset += self.batch_size
             return all_rows
 
-    def get_transformed_ids(
-        self, table_names: List[PostgresTableName], boundaries: Optional[DateBoundaries]
-    ):
+    def get_transformed_ids(self, table_names: List[PostgresTableName], boundaries: Optional[DateBoundaries]):
         ids_to_transform = self.extract(table_names, boundaries)
         transformed = self.transform(ids=ids_to_transform)
         return transformed
@@ -110,9 +101,7 @@ class PostgresReceiver(IExtractor, ITransformer):
     def _execute_sql_query(self, query: str, params: dict):
         with self.engine.connect() as connection:
             data = []
-            result = connection.execution_options(stream_results=True).execute(
-                text(query), params
-            )
+            result = connection.execution_options(stream_results=True).execute(text(query), params)
             while batch := result.fetchmany(self.batch_size):
                 data.extend(batch)
             return data

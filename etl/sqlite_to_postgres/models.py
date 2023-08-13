@@ -18,11 +18,9 @@ class FilmWork:
     def __post_init__(self):
         date_format = '%Y-%m-%d %H:%M:%S.%f+00'
         if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(
-                self.created_at, date_format).replace(tzinfo=timezone.utc)
+            self.created_at = datetime.strptime(self.created_at, date_format).replace(tzinfo=timezone.utc)
         if isinstance(self.updated_at, str):
-            self.updated_at = datetime.strptime(
-                self.updated_at, date_format).replace(tzinfo=timezone.utc)
+            self.updated_at = datetime.strptime(self.updated_at, date_format).replace(tzinfo=timezone.utc)
 
 
 @dataclass
@@ -36,11 +34,9 @@ class Genre:
     def __post_init__(self):
         date_format = '%Y-%m-%d %H:%M:%S.%f+00'
         if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(
-                self.created_at, date_format).replace(tzinfo=timezone.utc)
+            self.created_at = datetime.strptime(self.created_at, date_format).replace(tzinfo=timezone.utc)
         if isinstance(self.updated_at, str):
-            self.updated_at = datetime.strptime(
-                self.updated_at, date_format).replace(tzinfo=timezone.utc)
+            self.updated_at = datetime.strptime(self.updated_at, date_format).replace(tzinfo=timezone.utc)
 
 
 @dataclass
@@ -53,11 +49,9 @@ class Person:
     def __post_init__(self):
         date_format = '%Y-%m-%d %H:%M:%S.%f+00'
         if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(
-                self.created_at, date_format).replace(tzinfo=timezone.utc)
+            self.created_at = datetime.strptime(self.created_at, date_format).replace(tzinfo=timezone.utc)
         if isinstance(self.updated_at, str):
-            self.updated_at = datetime.strptime(
-                self.updated_at, date_format).replace(tzinfo=timezone.utc)
+            self.updated_at = datetime.strptime(self.updated_at, date_format).replace(tzinfo=timezone.utc)
 
 
 @dataclass
@@ -70,8 +64,7 @@ class GenreFilmwork:
     def __post_init__(self):
         date_format = '%Y-%m-%d %H:%M:%S.%f+00'
         if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(
-                self.created_at, date_format).replace(tzinfo=timezone.utc)
+            self.created_at = datetime.strptime(self.created_at, date_format).replace(tzinfo=timezone.utc)
 
 
 @dataclass
@@ -85,5 +78,4 @@ class PersonFilmwork:
     def __post_init__(self):
         date_format = '%Y-%m-%d %H:%M:%S.%f+00'
         if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(
-                self.created_at, date_format).replace(tzinfo=timezone.utc)
+            self.created_at = datetime.strptime(self.created_at, date_format).replace(tzinfo=timezone.utc)

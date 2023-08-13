@@ -9,9 +9,7 @@ class PostgresOrchester:
     def __init__(self, extractors: List[PostgresReceiver]):
         self.extractors = extractors
 
-    def extract_transformed_data(
-        self, index: ElasticIndexName, table_names: List[str], boundaries: DateBoundaries
-    ):
+    def extract_transformed_data(self, index: ElasticIndexName, table_names: List[str], boundaries: DateBoundaries):
         target_extractor = None
         for extractor in self.extractors:
             if extractor.index == index:
@@ -23,9 +21,7 @@ class PostgresOrchester:
         return target_extractor.get_transformed_ids(table_names, boundaries)
 
     def extract_min_update_time(self):
-        minimal_update_points = [
-            extractor.get_minimal_update_time() for extractor in self.extractors
-        ]
+        minimal_update_points = [extractor.get_minimal_update_time() for extractor in self.extractors]
 
         non_none_points = [point for point in minimal_update_points if point is not None]
 

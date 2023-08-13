@@ -7,6 +7,9 @@ import orjson
 from .genre import MovieGenre
 from .person import MoviePerson, MoviePersonName
 
+from models.genre import Genre
+from models.person import Person
+
 
 class Film(BaseModel):
     """

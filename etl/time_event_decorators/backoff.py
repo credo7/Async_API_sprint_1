@@ -24,9 +24,7 @@ def backoff_public_methods(wait_multiplier=1, wait_min=4, wait_max=10):
     def decorator(cls):
         for attr_name, attr_value in cls.__dict__.items():
             if callable(attr_value) and not attr_name.startswith('_'):
-                setattr(
-                    cls, attr_name, backoff(wait_multiplier, wait_min, wait_max)(attr_value)
-                )
+                setattr(cls, attr_name, backoff(wait_multiplier, wait_min, wait_max)(attr_value))
         return cls
 
     return decorator

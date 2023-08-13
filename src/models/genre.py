@@ -26,4 +26,4 @@ class Genre(BaseModel):
 
     id: str
     name: str
-    description: Optional[str] 
+    description: Optional[str]

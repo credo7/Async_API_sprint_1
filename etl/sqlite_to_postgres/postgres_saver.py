@@ -14,13 +14,14 @@ class PostgresSaver:
                 self._clear_database(table_name)
                 field_names = self._get_column_names(instances[0])
                 columns = ', '.join(field_names)
-                bind_values = self._prepare_data_to_insert(len(field_names),
-                                                           instances)
-                self.cursor.execute(f"""
+                bind_values = self._prepare_data_to_insert(len(field_names), instances)
+                self.cursor.execute(
+                    f"""
                     INSERT INTO content.{table_name} ({columns})
                     VALUES {bind_values}
                     ON CONFLICT (id) DO NOTHING
-                    """)
+                    """
+                )
                 self.connection.commit()
 
     def _clear_database(self, table_name):
@@ -29,8 +30,7 @@ class PostgresSaver:
     def _prepare_data_to_insert(self, fields_length, instances_to_prepare):
         column_counts = ', '.join(['%s'] * fields_length)
         query_values = [
-            self.cursor.mogrify(f'({column_counts})', astuple(item))
-            .decode('utf-8') for item in instances_to_prepare
+            self.cursor.mogrify(f'({column_counts})', astuple(item)).decode('utf-8') for item in instances_to_prepare
         ]
         bind_values = ','.join(query_values)
         return bind_values

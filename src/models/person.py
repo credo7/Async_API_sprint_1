@@ -38,7 +38,7 @@ class MoviePersonName(BaseModel):
 
     full_name: str
 
- 
+
 class Person(BaseModel):
     """
     Represents a person associated with a film.

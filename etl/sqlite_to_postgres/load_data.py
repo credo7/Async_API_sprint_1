@@ -7,14 +7,12 @@ from dotenv import load_dotenv
 from psycopg2.extensions import connection as _connection
 from psycopg2.extras import DictCursor
 
-from database_contexts import (create_postgresql_connection,
-                               create_sqlite_connection)
+from database_contexts import create_postgresql_connection, create_sqlite_connection
 from postgres_saver import PostgresSaver
 from sqlite_extractor import SQLiteExtractor
 
 
-def load_from_sqlite(sqlite_connection: sqlite3.Connection,
-                     postgres_connection: _connection):
+def load_from_sqlite(sqlite_connection: sqlite3.Connection, postgres_connection: _connection):
     try:
         postgres_saver = PostgresSaver(postgres_connection)
         sqlite_extractor = SQLiteExtractor(sqlite_connection)

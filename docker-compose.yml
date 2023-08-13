@@ -16,6 +16,22 @@ services:
     env_file:
       - ./etl/.env.example
 
+  movies-api:
+    build: .
+    container_name: movies-api
+    restart: unless-stopped
+    depends_on:
+      postgres_test:
+        condition: service_started
+      elasticsearch_test:
+        condition: service_started
+      redis_test:
+        condition: service_started
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./etl/.env.example
+
   postgres_test:
     image: postgres:13
     container_name: postgres_test

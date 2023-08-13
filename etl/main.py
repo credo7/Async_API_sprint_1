@@ -40,6 +40,7 @@ if __name__ == '__main__':
     redis_storage = RedisStorage(redis_adapter=Redis.from_url(url=settings.redis_url))
     state = State(storage=redis_storage)
     postgres_receiver_orchester = setup_database_orchester(settings.database_url)
-    synchronise_postgres_elastic(
-        loader=elastic_search_loader, extractor=postgres_receiver_orchester, state=state
-    )
+    while True:
+        synchronise_postgres_elastic(
+            loader=elastic_search_loader, extractor=postgres_receiver_orchester, state=state
+        )

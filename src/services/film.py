@@ -62,7 +62,7 @@ class FilmService:
         return films
 
     async def _film_from_cache(self, film_id: str) -> Optional[Film]:
-        data = await self.redis.get(film_id)
+        data = await self.redis.get(f'movie_{film_id}')
         if not data:
             return None
 
@@ -70,7 +70,7 @@ class FilmService:
         return film
 
     async def _film_list_from_cache(self, page_size: int, page_number: int, sort: str = None):
-        cache_key = f"{sort or ''}_{page_size}_{page_number}"
+        cache_key = f"movies_{sort or ''}_{page_size}_{page_number}"
 
         data = await self.redis.get(cache_key)
         if not data:
@@ -82,10 +82,10 @@ class FilmService:
         return films
 
     async def _put_film_to_cache(self, film: Film):
-        await self.redis.set(film.id, film.model_dump_json(), FILM_CACHE_EXPIRE_IN_SECONDS)
+        await self.redis.set(f'movie_{film.id}', film.model_dump_json(), FILM_CACHE_EXPIRE_IN_SECONDS)
 
     async def _put_film_list_to_cache(self, sort: str, page_size: int, page_number: int, films: List[Film]):
-        cache_key = f"{sort or ''}_{page_size}_{page_number}"
+        cache_key = f"movies_{sort or ''}_{page_size}_{page_number}"
 
         films_json_list = [film.model_dump_json() for film in films]
         films_json_str = orjson.dumps(films_json_list)

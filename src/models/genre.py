@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class Genre(BaseModel):
+class MovieGenre(BaseModel):
     """
     Represents a genre associated with a film
 

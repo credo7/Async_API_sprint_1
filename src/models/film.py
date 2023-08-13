@@ -4,6 +4,9 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
+from src.models.genre import Genre
+from src.models.person import Person
+
 
 class Film(BaseModel):
     """
@@ -21,12 +24,12 @@ class Film(BaseModel):
     - genres (Optional[List[Genre]]): List of genres associated with the film (if available).
     """
 
-    id: uuid.UUID
+    id: str
     title: str
     description: Optional[str]
     creation_date: Optional[datetime.date]
     source_link: Optional[str]
-    actors: Optional[List["Person"]]
-    screen_writers: Optional[List["Person"]]
-    directors: Optional[List["Person"]]
-    genres: Optional[List["Genre"]]
+    actors: Optional[List['Person']]
+    screen_writers: Optional[List['Person']]
+    directors: Optional[List['Person']]
+    genres: Optional[List['Genre']]

@@ -1,7 +1,17 @@
-import uuid
 from typing import List, Optional
 
 from pydantic import BaseModel
+
+
+class PersonFilms(BaseModel):
+    """
+    Attributes:
+        - id (str):
+        - roles (list[optional[str]]):
+    """
+
+    id: str
+    roles: List[Optional[str]] = []
 
 
 class Person(BaseModel):
@@ -11,10 +21,10 @@ class Person(BaseModel):
     Attributes:
     - id (UUID): Unique identifier
     - name (str): The name of the person.
-    - films (Optional[List[Film]]): List of films associated with the film (if available).
+    - films (Optional[List[PersonFilms]]): List of films associated with the film (if available).
 
     """
 
-    id: uuid.UUID
+    id: str
     full_name: str
-    films: Optional[List["Film"]]
+    films: Optional[List['PersonFilms']]

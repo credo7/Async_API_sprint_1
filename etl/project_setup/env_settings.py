@@ -31,4 +31,4 @@ class Settings(BaseSettings):
         return f'redis://{self.redis_host}:{self.redis_port}/0'
 
     class Config:
-        env_file = '../.env.example'
+        env_file = '../../.env.example'

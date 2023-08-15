@@ -12,8 +12,6 @@ RUN apt-get update && apt-get install -y netcat-openbsd
 
 COPY . .
 
-ENV PYTHONPATH=/app
-
 EXPOSE 8000
 
 RUN chmod +x /app/docker-entrypoint.sh

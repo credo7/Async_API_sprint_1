@@ -44,7 +44,9 @@ class PersonService:
             )
             if not persons:
                 return []
-            await self._put_persons_to_cache(page_number=page_number, page_size=page_size, sort=sort, persons=persons)
+            await self._put_persons_to_cache(
+                page_number=page_number, page_size=page_size, sort=sort, persons=persons
+            )
 
         return persons
 
@@ -87,8 +89,12 @@ class PersonService:
             return None
         return Person.model_validate(orjson.loads(data))
 
-    async def _get_persons_from_cache(self, search: Optional[str], page_size: int, page_number: int, sort: str = None):
-        cache_key = f"{self.redis_prefix_plural}_{search or ''}_{sort or ''}_{page_size}_{page_number}"
+    async def _get_persons_from_cache(
+        self, search: Optional[str], page_size: int, page_number: int, sort: str = None
+    ):
+        cache_key = (
+            f"{self.redis_prefix_plural}_{search or ''}_{sort or ''}_{page_size}_{page_number}"
+        )
 
         data = await self.redis.get(cache_key)
         if not data:
@@ -103,7 +109,9 @@ class PersonService:
         cache_key = f'{self.redis_prefix_single}_{person.id}'
         await self.redis.set(cache_key, person.model_dump_json(), FILM_CACHE_EXPIRE_IN_SECONDS)
 
-    async def _put_persons_to_cache(self, sort: str, page_size: int, page_number: int, persons: List[Person]):
+    async def _put_persons_to_cache(
+        self, sort: str, page_size: int, page_number: int, persons: List[Person]
+    ):
         cache_key = f"{self.redis_prefix_plural}_{sort or ''}_{page_size}_{page_number}"
 
         persons_json_list = [person.model_dump_json() for person in persons]

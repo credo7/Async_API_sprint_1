@@ -24,9 +24,21 @@ LOGGING = {
         },
     },
     'handlers': {
-        'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler', 'formatter': 'verbose',},
-        'default': {'formatter': 'default', 'class': 'logging.StreamHandler', 'stream': 'ext://sys.stdout',},
-        'access': {'formatter': 'access', 'class': 'logging.StreamHandler', 'stream': 'ext://sys.stdout',},
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'default': {
+            'formatter': 'default',
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://sys.stdout',
+        },
+        'access': {
+            'formatter': 'access',
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://sys.stdout',
+        },
     },
     'loggers': {
         '': {'handlers': LOG_DEFAULT_HANDLERS, 'level': 'INFO',},

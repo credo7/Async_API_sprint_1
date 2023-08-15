@@ -44,7 +44,9 @@ class GenreService:
             )
             if not genres:
                 return []
-            await self._put_genres_to_cache(page_number=page_number, page_size=page_size, sort=sort, genres=genres)
+            await self._put_genres_to_cache(
+                page_number=page_number, page_size=page_size, sort=sort, genres=genres
+            )
 
         return genres
 
@@ -55,9 +57,13 @@ class GenreService:
             return None
         return Genre(**doc['_source'])
 
-    async def _get_genres_from_elastic(self, search: Optional[str], page_number: int, page_size: int, sort: str = None):
+    async def _get_genres_from_elastic(
+        self, search: Optional[str], page_number: int, page_size: int, sort: str = None
+    ):
         query = {
-            'query': {'multi_match': {'query': search, 'fields': ['*']}} if search else {'match_all': {}},
+            'query': {'multi_match': {'query': search, 'fields': ['*']}}
+            if search
+            else {'match_all': {}},
             'size': page_size,
             'from': (page_number - 1) * page_size,
         }
@@ -83,8 +89,12 @@ class GenreService:
             return None
         return Genre.model_validate(orjson.loads(data))
 
-    async def _get_genres_from_cache(self, search: Optional[str], page_size: int, page_number: int, sort: str = None):
-        cache_key = f"{self.redis_prefix_plural}_{search or ''}_{sort or ''}_{page_size}_{page_number}"
+    async def _get_genres_from_cache(
+        self, search: Optional[str], page_size: int, page_number: int, sort: str = None
+    ):
+        cache_key = (
+            f"{self.redis_prefix_plural}_{search or ''}_{sort or ''}_{page_size}_{page_number}"
+        )
 
         data = await self.redis.get(cache_key)
         if not data:
@@ -99,7 +109,9 @@ class GenreService:
         cache_key = f'{self.redis_prefix_single}_{genre.id}'
         await self.redis.set(cache_key, genre.model_dump_json(), FILM_CACHE_EXPIRE_IN_SECONDS)
 
-    async def _put_genres_to_cache(self, sort: str, page_size: int, page_number: int, genres: List[Genre]):
+    async def _put_genres_to_cache(
+        self, sort: str, page_size: int, page_number: int, genres: List[Genre]
+    ):
         cache_key = f"{self.redis_prefix_plural}_{sort or ''}_{page_size}_{page_number}"
 
         genres_json_list = [genre.model_dump_json() for genre in genres]

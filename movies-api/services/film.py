@@ -30,12 +30,18 @@ class FilmService:
         return film
 
     async def get_many_by_parameters(self, page_number: int, page_size: int, sort: str = None):
-        films = await self._film_list_from_cache(page_size=page_size, page_number=page_number, sort=sort)
+        films = await self._film_list_from_cache(
+            page_size=page_size, page_number=page_number, sort=sort
+        )
         if not films:
-            films = await self._get_film_list_from_elastic(page_number=page_number, page_size=page_size, sort=sort)
+            films = await self._get_film_list_from_elastic(
+                page_number=page_number, page_size=page_size, sort=sort
+            )
             if not films:
                 return None
-            await self._put_film_list_to_cache(page_number=page_number, page_size=page_size, sort=sort, films=films)
+            await self._put_film_list_to_cache(
+                page_number=page_number, page_size=page_size, sort=sort, films=films
+            )
 
         return films
 
@@ -46,11 +52,19 @@ class FilmService:
         except NotFoundError:
             return None
 
-    async def _get_film_list_from_elastic(self, page_number: int, page_size: int, sort: str = None):
-        query = {'query': {'match_all': {}}, 'size': page_size, 'from': (page_number - 1) * page_size}
+    async def _get_film_list_from_elastic(
+        self, page_number: int, page_size: int, sort: str = None
+    ):
+        query = {
+            'query': {'match_all': {}},
+            'size': page_size,
+            'from': (page_number - 1) * page_size,
+        }
 
         if sort:
-            sort_key, sort_order = (sort[1:], 'desc') if sort.startswith('-') else (sort, 'asc')
+            sort_key, sort_order = (
+                (sort[1:], 'desc') if sort.startswith('-') else (sort, 'asc')
+            )
             query['sort'] = [{sort_key: sort_order}]
 
         try:
@@ -82,9 +96,13 @@ class FilmService:
         return films
 
     async def _put_film_to_cache(self, film: Film):
-        await self.redis.set(f'movie_{film.id}', film.model_dump_json(), FILM_CACHE_EXPIRE_IN_SECONDS)
+        await self.redis.set(
+            f'movie_{film.id}', film.model_dump_json(), FILM_CACHE_EXPIRE_IN_SECONDS
+        )
 
-    async def _put_film_list_to_cache(self, sort: str, page_size: int, page_number: int, films: List[Film]):
+    async def _put_film_list_to_cache(
+        self, sort: str, page_size: int, page_number: int, films: List[Film]
+    ):
         cache_key = f"movies_{sort or ''}_{page_size}_{page_number}"
 
         films_json_list = [film.model_dump_json() for film in films]

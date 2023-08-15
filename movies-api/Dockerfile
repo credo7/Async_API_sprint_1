@@ -2,10 +2,19 @@ FROM python:3.11
 
 WORKDIR /app
 
-COPY ../requirements.txt requirements.txt
+ENV UVICORN_WORKERS_NUM 16
+
+COPY requirements.txt requirements.txt
 
 RUN  pip install --upgrade pip && pip install -r requirements.txt --no-cache-dir
 
-COPY .. .
+RUN apt-get update && apt-get install -y netcat-openbsd
 
-ENTRYPOINT ["python3", "src/main.py"]
+COPY . .
+
+ENV PYTHONPATH=/app
+
+EXPOSE 8000
+
+RUN chmod +x /app/docker-entrypoint.sh
+CMD ["/app/docker-entrypoint.sh"]

@@ -51,7 +51,12 @@ This command will:
 - Start the movies API service
 
 ## Features
-All endpoint descriptions are available in Swagger.
+You can explore all the API endpoints through Swagger's interactive documentation. Once you have launched the application, simply copy and paste the following URL into your browser's address bar:
+
+`http://localhost:8000/api/openapi`
+
+This will provide you with detailed information about each endpoint, allowing you to understand and interact with the API more effectively.
+
 
 ## Contribution Guidelines
 

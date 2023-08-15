@@ -29,7 +29,7 @@ services:
       - ./etl/.env.example
 
   movies-api:
-    build: .
+    build: movies-api
     container_name: movies-api
     restart: unless-stopped
     depends_on:

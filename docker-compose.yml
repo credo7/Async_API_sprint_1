@@ -16,7 +16,6 @@ services:
 
   etl-service:
     build: etl
-    container_name: etl-service
     restart: unless-stopped
     depends_on:
       postgres:
@@ -26,15 +25,12 @@ services:
       redis:
         condition: service_started
     env_file:
-      - ./etl/.env.example
+      - .env.example
 
   movies-api:
     build: movies-api
-    container_name: movies-api
     restart: unless-stopped
     depends_on:
-      postgres:
-        condition: service_started
       elasticsearch:
         condition: service_started
       redis:
@@ -42,16 +38,15 @@ services:
     expose:
       - "8000"
     env_file:
-      - ./etl/.env.example
+      - .env.example
 
   postgres:
     image: postgres:13
-    container_name: postgres
     volumes:
       - ./db:/var/lib/postgresql/data
       - ./schema_design/scripts:/docker-entrypoint-initdb.d
     env_file:
-      - ./etl/.env.example
+      - .env.example
     expose:
       - "5432"
     restart: unless-stopped
@@ -64,14 +59,12 @@ services:
 
   redis:
     image: redis:latest
-    container_name: redis
     expose:
       - "6379"
     restart: unless-stopped
 
   elasticsearch:
     image: elasticsearch:8.6.2
-    container_name: elasticsearch
     environment:
       - discovery.type=single-node
       - network.host=0.0.0.0

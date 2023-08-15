@@ -17,7 +17,9 @@ class DateBoundaries:
         return f'from {self.from_time.isoformat()} : till {self.till_time.isoformat()}'
 
 
-def get_query_boundaries(last_update_time: Optional[Union[datetime, str]], time_delta=None) -> Optional[DateBoundaries]:
+def get_query_boundaries(
+    last_update_time: Optional[Union[datetime, str]], time_delta=None
+) -> Optional[DateBoundaries]:
     if not last_update_time:
         return None
     if not time_delta:
@@ -25,7 +27,4 @@ def get_query_boundaries(last_update_time: Optional[Union[datetime, str]], time_
     if isinstance(last_update_time, str):
         last_update_time = datetime.fromisoformat(last_update_time)
     date_boundaries = DateBoundaries(from_time=last_update_time, step=time_delta)
-
-    logging.info('Time boundaries: %s | %s', date_boundaries.from_time, date_boundaries.till_time)
-
     return date_boundaries

@@ -52,8 +52,6 @@ services:
       - ./schema_design/scripts:/docker-entrypoint-initdb.d
     env_file:
       - ./etl/.env.example
-    ports:
-      - "5432:5432"
     expose:
       - "5432"
     restart: unless-stopped
@@ -80,8 +78,6 @@ services:
       - xpack.security.enabled=false
     volumes:
       - ./esdata:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
     expose:
       - "9200"
     restart: unless-stopped

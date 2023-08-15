@@ -37,13 +37,15 @@ services:
         condition: service_started
     expose:
       - "8000"
+    ports:
+      - "8000:8000"
     env_file:
       - .env.example
 
   postgres:
     image: postgres:13
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - ./postgres_volume:/var/lib/postgresql/data
       - ./schema_design/scripts:/docker-entrypoint-initdb.d
     env_file:
       - .env.example
@@ -70,7 +72,7 @@ services:
       - network.host=0.0.0.0
       - xpack.security.enabled=false
     volumes:
-      - ./esdata:/usr/share/elasticsearch/data
+      - ./elastic_volume:/usr/share/elasticsearch/data
     expose:
       - "9200"
     restart: unless-stopped

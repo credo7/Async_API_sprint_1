@@ -7,11 +7,12 @@ __pycache__/
 *.so
 
 # custom
+postgres_volume
+elastic_volume
 
 .idea
 .ds_store
-esdata
-db
+
 
 # Distribution / packaging
 .Python
@@ -158,9 +159,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
-esdata
-db
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can

@@ -13,7 +13,6 @@ router = APIRouter()
     response_model=List[Person],
 )
 async def person_details_list(
-    # sort: str = Query(None, description='Sort order (-name to sort descending)'),
     search: str = Query(
         None,
         description="Searching text",

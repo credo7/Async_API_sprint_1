@@ -4,4 +4,4 @@ include = '\.py$'
 exlude = 'tests/'
 
 [tool.isort]
-profile = "black"
+profile = 'black'

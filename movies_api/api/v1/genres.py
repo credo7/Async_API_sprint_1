@@ -13,7 +13,6 @@ router = APIRouter()
     response_model=List[Genre],
 )
 async def genre_details_list(
-    # sort: str = Query(None, description='Sort order (-name to sort descending)'),
     search: str = Query(
         None,
         description="Searching text",

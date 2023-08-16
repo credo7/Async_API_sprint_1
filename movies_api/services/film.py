@@ -39,22 +39,26 @@ class FilmService:
         self,
         page_number: int,
         page_size: int,
-        sort: str = None,
+        search: str | None = None,
+        sort: str | None = None,
     ):
         films = await self._film_list_from_cache(
+            search=search,
             page_size=page_size,
             page_number=page_number,
             sort=sort,
         )
         if not films:
             films = await self._get_film_list_from_elastic(
+                search=search,
                 page_number=page_number,
                 page_size=page_size,
                 sort=sort,
             )
             if not films:
-                return None
+                return []
             await self._put_film_list_to_cache(
+                search=search,
                 page_number=page_number,
                 page_size=page_size,
                 sort=sort,
@@ -80,10 +84,19 @@ class FilmService:
         self,
         page_number: int,
         page_size: int,
+        search: str | None = None,
         sort: str = None,
     ):
         query = {
-            "query": {"match_all": {}},
+            "query": {
+                "multi_match": {
+                    "query": search,
+                    "fields": ["*"],
+                    "fuzziness": "AUTO",
+                }
+            }
+            if search
+            else {"match_all": {}},
             "size": page_size,
             "from": (page_number - 1) * page_size,
         }
@@ -128,9 +141,10 @@ class FilmService:
         self,
         page_size: int,
         page_number: int,
-        sort: str = None,
+        search: str | None = None,
+        sort: str | None = None,
     ):
-        cache_key = f"movies_{sort or ''}_{page_size}_{page_number}"
+        cache_key = f"movies_{search or ''}_{sort or ''}_{page_size}_{page_number}"
 
         data = await self.redis.get(cache_key)
         if not data:
@@ -153,12 +167,13 @@ class FilmService:
 
     async def _put_film_list_to_cache(
         self,
-        sort: str,
         page_size: int,
         page_number: int,
         films: List[Film],
+        sort: str,
+        search: str,
     ):
-        cache_key = f"movies_{sort or ''}_{page_size}_{page_number}"
+        cache_key = f"movies_{search or ''}_{sort or ''}_{page_size}_{page_number}"
 
         films_json_list = [film.model_dump_json() for film in films]
         films_json_str = orjson.dumps(films_json_list)

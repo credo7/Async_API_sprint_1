@@ -1,9 +1,7 @@
-from typing import Optional
-
-from pydantic import BaseModel
+from .base import BaseConfig
 
 
-class MovieGenre(BaseModel):
+class MovieGenre(BaseConfig):
     """
     Represents a genre associated with a film
 
@@ -14,7 +12,7 @@ class MovieGenre(BaseModel):
     name: str
 
 
-class Genre(BaseModel):
+class Genre(BaseConfig):
     """
     Represents a genre associated with a film
 
@@ -26,4 +24,4 @@ class Genre(BaseModel):
 
     id: str
     name: str
-    description: Optional[str]
+    description: str | None

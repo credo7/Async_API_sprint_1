@@ -1,55 +1,52 @@
-import uuid
-from typing import List, Optional
-
-from pydantic import BaseModel, model_validator
+from models.base import BaseConfig
 
 
-class PersonFilms(BaseModel):
+class PersonFilms(BaseConfig):
     """
     Attributes:
         - id (str):
-        - roles (list[optional[str]]):
+        - roles (List[str | None]):
     """
 
     id: str
-    roles: List[Optional[str]] = []
+    roles: list[str | None] = []
 
 
-class MoviePerson(BaseModel):
+class MoviePerson(BaseConfig):
     """
     Represents a person associated with a film.
 
     Attributes:
     - id (Str): Unique identifier.
-    - name (str): The name of the person.
+    - full_name (str): The name of the person.
     """
 
     id: str
     full_name: str
 
 
-class MoviePersonName(BaseModel):
+class MoviePersonName(BaseConfig):
     """
     Represents a short version of person associated with a film.
 
     Attributes:
-    - name (str): The name of the person.
+    - full_name (str): The full_name of the person.
     """
 
     full_name: str
 
 
-class Person(BaseModel):
+class Person(BaseConfig):
     """
     Represents a person associated with a film.
 
     Attributes:
     - id (UUID): Unique identifier
-    - name (str): The name of the person.
+    - full_name (str): The full_name of the person.
     - films (Optional[List[PersonFilms]]): List of films associated with the film (if available).
 
     """
 
     id: str
     full_name: str
-    films: Optional[List["PersonFilms"]]
+    films: list["PersonFilms"] | None

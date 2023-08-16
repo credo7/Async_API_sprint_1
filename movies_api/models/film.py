@@ -1,16 +1,11 @@
-import uuid
-from typing import List, Optional
-
 import orjson
-from models.genre import Genre
-from models.person import Person
-from pydantic import BaseModel, field_validator
 
+from .base import BaseConfig
 from .genre import MovieGenre
 from .person import MoviePerson, MoviePersonName
 
 
-class Film(BaseModel):
+class Film(BaseConfig):
     """
     Represents a film.
 
@@ -27,12 +22,12 @@ class Film(BaseModel):
 
     id: str
     title: str
-    description: Optional[str]
-    imdb_rating: Optional[float]
-    actors: Optional[List[MoviePerson]]
-    writers: Optional[List[MoviePerson]]
-    directors: Optional[List[MoviePersonName]]
-    genres: Optional[List[MovieGenre]]
+    description: str | None
+    imdb_rating: float | None
+    actors: list[MoviePerson] | None
+    writers: list[MoviePerson] | None
+    directors: list[MoviePersonName] | None
+    genres: list[MovieGenre] | None
 
     @staticmethod
     def parse_from_elastic(

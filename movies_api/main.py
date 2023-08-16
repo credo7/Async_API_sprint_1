@@ -1,12 +1,10 @@
-import uvicorn
+from api.v1 import films, genres, persons
+from core import config
+from db import elastic, redis
 from elasticsearch import AsyncElasticsearch
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 from redis.asyncio import Redis
-
-from api.v1 import films, genres, persons
-from core import config
-from db import elastic, redis
 
 app = FastAPI(
     title=config.PROJECT_NAME,
@@ -22,7 +20,6 @@ async def startup():
         host=config.REDIS_HOST,
         port=config.REDIS_PORT,
     )
-    print(f"{config.ELASTIC_HOST}:{config.ELASTIC_PORT}")
     elastic.es = AsyncElasticsearch(hosts=[f"{config.ELASTIC_SCHEME}://{config.ELASTIC_HOST}:{config.ELASTIC_PORT}"])
 
 

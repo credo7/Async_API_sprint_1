@@ -1,5 +1,7 @@
 [tool.black]
 line_length = 120
+include = '\.py$'
+exlude = 'tests/'
 
 [tool.isort]
 profile = "black"

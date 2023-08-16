@@ -42,16 +42,22 @@ class Film(BaseModel):
             title=document['_source']['title'],
             description=document['_source']['description'],
             imdb_rating=document['_source']['imdb_rating'],
-            actors=[MoviePerson(id=person['id'], full_name=person['name']) for person in document['_source']['actors']],
+            actors=[
+                MoviePerson(id=person['id'], full_name=person['name'])
+                for person in document['_source']['actors']
+            ],
             writers=[
-                MoviePerson(id=person['id'], full_name=person['name']) for person in document['_source']['writers']
+                MoviePerson(id=person['id'], full_name=person['name'])
+                for person in document['_source']['writers']
             ],
             directors=[
                 MoviePersonName(full_name=director_name)
                 for director_name in document['_source']['director']
                 if director_name is not None
             ],
-            genres=[MovieGenre(name=genre_name) for genre_name in document['_source']['genre']],
+            genres=[
+                MovieGenre(name=genre_name) for genre_name in document['_source']['genre']
+            ],
         )
 
     @staticmethod
@@ -78,5 +84,7 @@ class Film(BaseModel):
                 for director in film['directors']
                 if director is not None
             ],
-            genres=[MovieGenre(name=genre['name']) for genre in film['genres'] if genre is not None],
+            genres=[
+                MovieGenre(name=genre['name']) for genre in film['genres'] if genre is not None
+            ],
         )

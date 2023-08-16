@@ -16,13 +16,17 @@ async def person_details_list(
     page_number: int = Query(1, ge=1, description='Page number'),
     person_service: PersonService = Depends(get_person_service),
 ) -> List[Person]:
-    persons = await person_service.filter(search=search, page_number=page_number, page_size=page_size)
+    persons = await person_service.filter(
+        search=search, page_number=page_number, page_size=page_size
+    )
 
     return persons
 
 
 @router.get('/{person_id}', response_model=Person)
-async def person_details(person_id: str, person_service: PersonService = Depends(get_person_service),) -> Person:
+async def person_details(
+    person_id: str, person_service: PersonService = Depends(get_person_service),
+) -> Person:
     person = await person_service.get_by_id(person_id)
     if not person:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='person not found')

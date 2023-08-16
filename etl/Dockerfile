@@ -7,7 +7,7 @@ COPY requirements.txt requirements.txt
 RUN pip install --upgrade pip \
     && pip install -r requirements.txt --no-cache-dir
 
-RUN apt-get update && apt-get install -y postgresql-client
+RUN apt-get update && apt-get install -y netcat-openbsd
 
 COPY . .
 

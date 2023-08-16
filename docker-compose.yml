@@ -14,46 +14,39 @@ services:
       movies-api:
         condition: service_started
 
-  etl-service_test:
+  etl-service:
     build: etl
-    container_name: etl-service_test
     restart: unless-stopped
     depends_on:
-      postgres_test:
+      postgres:
         condition: service_started
-      elasticsearch_test:
+      elasticsearch:
         condition: service_started
-      redis_test:
+      redis:
         condition: service_started
     env_file:
-      - ./etl/.env.example
+      - .env.example
 
   movies-api:
-    build: .
-    container_name: movies-api
+    build: movies-api
     restart: unless-stopped
     depends_on:
-      postgres_test:
+      elasticsearch:
         condition: service_started
-      elasticsearch_test:
-        condition: service_started
-      redis_test:
+      redis:
         condition: service_started
     expose:
       - "8000"
     env_file:
-      - ./etl/.env.example
+      - .env.example
 
-  postgres_test:
+  postgres:
     image: postgres:13
-    container_name: postgres_test
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - ./postgres_volume:/var/lib/postgresql/data
       - ./schema_design/scripts:/docker-entrypoint-initdb.d
     env_file:
-      - ./etl/.env.example
-    ports:
-      - "5432:5432"
+      - .env.example
     expose:
       - "5432"
     restart: unless-stopped
@@ -64,24 +57,20 @@ services:
       start_period: 20s
       timeout: 10s
 
-  redis_test:
+  redis:
     image: redis:latest
-    container_name: redis_test
     expose:
       - "6379"
     restart: unless-stopped
 
-  elasticsearch_test:
+  elasticsearch:
     image: elasticsearch:8.6.2
-    container_name: elasticsearch_test
     environment:
       - discovery.type=single-node
       - network.host=0.0.0.0
       - xpack.security.enabled=false
     volumes:
-      - ./esdata:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
+      - ./elastic_volume:/usr/share/elasticsearch/data
     expose:
       - "9200"
     restart: unless-stopped

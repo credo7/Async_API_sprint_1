@@ -2,7 +2,8 @@ import os
 from logging import config as logging_config
 
 from core.logger import LOGGING
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):

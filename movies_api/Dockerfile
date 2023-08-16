@@ -13,6 +13,5 @@ RUN apt-get update && apt-get install -y netcat-openbsd
 COPY . .
 
 EXPOSE 8000
-
 RUN chmod +x /app/docker-entrypoint.sh
 CMD ["/app/docker-entrypoint.sh"]

@@ -28,7 +28,7 @@ services:
       - .env.example
 
   movies-api:
-    build: movies-api
+    build: movies_api
     restart: unless-stopped
     depends_on:
       elasticsearch:
@@ -43,7 +43,7 @@ services:
   postgres:
     image: postgres:13
     volumes:
-      - ./postgres_volume:/var/lib/postgresql/data
+      - ./volumes/postgres:/var/lib/postgresql/data
       - ./schema_design/scripts:/docker-entrypoint-initdb.d
     env_file:
       - .env.example
@@ -70,7 +70,7 @@ services:
       - network.host=0.0.0.0
       - xpack.security.enabled=false
     volumes:
-      - ./elastic_volume:/usr/share/elasticsearch/data
+      - ./volumes/elastic:/usr/share/elasticsearch/data
     expose:
       - "9200"
     restart: unless-stopped

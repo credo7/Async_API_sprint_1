@@ -10,21 +10,37 @@ class DateBoundaries:
     step: timedelta
 
     @property
-    def till_time(self) -> datetime:
+    def till_time(
+        self,
+    ) -> datetime:
         return self.from_time + self.step
 
-    def __repr__(self):
-        return f'from {self.from_time.isoformat()} : till {self.till_time.isoformat()}'
+    def __repr__(
+        self,
+    ):
+        return f"from {self.from_time.isoformat()} : till {self.till_time.isoformat()}"
 
 
 def get_query_boundaries(
-    last_update_time: Optional[Union[datetime, str]], time_delta=None
+    last_update_time: Optional[
+        Union[
+            datetime,
+            str,
+        ]
+    ],
+    time_delta=None,
 ) -> Optional[DateBoundaries]:
     if not last_update_time:
         return None
     if not time_delta:
         time_delta = timedelta(minutes=1)
-    if isinstance(last_update_time, str):
+    if isinstance(
+        last_update_time,
+        str,
+    ):
         last_update_time = datetime.fromisoformat(last_update_time)
-    date_boundaries = DateBoundaries(from_time=last_update_time, step=time_delta)
+    date_boundaries = DateBoundaries(
+        from_time=last_update_time,
+        step=time_delta,
+    )
     return date_boundaries

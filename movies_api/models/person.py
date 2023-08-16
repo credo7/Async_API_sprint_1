@@ -1,5 +1,5 @@
-from typing import List, Optional
 import uuid
+from typing import List, Optional
 
 from pydantic import BaseModel, model_validator
 
@@ -30,11 +30,11 @@ class MoviePerson(BaseModel):
 
 class MoviePersonName(BaseModel):
     """
-        Represents a short version of person associated with a film.
+    Represents a short version of person associated with a film.
 
-        Attributes:
-        - name (str): The name of the person.
-        """
+    Attributes:
+    - name (str): The name of the person.
+    """
 
     full_name: str
 
@@ -52,4 +52,4 @@ class Person(BaseModel):
 
     id: str
     full_name: str
-    films: Optional[List['PersonFilms']]
+    films: Optional[List["PersonFilms"]]

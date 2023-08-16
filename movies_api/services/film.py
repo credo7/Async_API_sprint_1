@@ -1,16 +1,14 @@
-import json
 from functools import lru_cache
 from typing import List, Optional
 
 import orjson
+from core.config import settings
 from db.elastic import get_elastic
 from db.redis import get_redis
 from elasticsearch import AsyncElasticsearch, NotFoundError
 from fastapi import Depends
 from models.film import Film
 from redis.asyncio import Redis
-
-FILM_CACHE_EXPIRE_IN_SECONDS = 60 * 5  # 5 минут
 
 
 class FilmService:
@@ -162,7 +160,7 @@ class FilmService:
         await self.redis.set(
             f"movie_{film.id}",
             film.model_dump_json(),
-            FILM_CACHE_EXPIRE_IN_SECONDS,
+            settings.cache_expire_time,
         )
 
     async def _put_film_list_to_cache(
@@ -181,7 +179,7 @@ class FilmService:
         await self.redis.set(
             cache_key,
             films_json_str,
-            FILM_CACHE_EXPIRE_IN_SECONDS,
+            settings.cache_expire_time,
         )
 
 

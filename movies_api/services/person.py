@@ -2,14 +2,13 @@ from functools import lru_cache
 from typing import List, Optional
 
 import orjson
+from core.config import settings
 from db.elastic import get_elastic
 from db.redis import get_redis
 from elasticsearch import AsyncElasticsearch, NotFoundError
 from fastapi import Depends
 from models.person import Person
 from redis.asyncio import Redis
-
-FILM_CACHE_EXPIRE_IN_SECONDS = 60 * 5  # 5 минут
 
 
 class PersonService:
@@ -163,7 +162,7 @@ class PersonService:
         await self.redis.set(
             cache_key,
             person.model_dump_json(),
-            FILM_CACHE_EXPIRE_IN_SECONDS,
+            settings.cache_expire_time,
         )
 
     async def _put_persons_to_cache(
@@ -181,7 +180,7 @@ class PersonService:
         await self.redis.set(
             cache_key,
             persons_json_str,
-            FILM_CACHE_EXPIRE_IN_SECONDS,
+            settings.cache_expire_time,
         )
 
 

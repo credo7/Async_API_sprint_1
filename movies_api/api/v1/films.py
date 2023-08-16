@@ -11,6 +11,9 @@ router = APIRouter()
 
 @router.get(
     "/search",
+    summary="Search throw all movies.",
+    description="Search throw all movies.",
+    tags=["Search"],
     response_model=List[Film],
 )
 async def film_details_list(
@@ -46,6 +49,8 @@ async def film_details_list(
 
 @router.get(
     "/{film_id}",
+    description="Returns information about movie according uuid.",
+    tags=["Movies"],
     response_model=Film,
 )
 async def film_details(

@@ -10,6 +10,9 @@ router = APIRouter()
 
 @router.get(
     "/search",
+    summary="Search throw genres",
+    description="Write genre name to field search to retrieve all genres with this name.",
+    tags=["Search"],
     response_model=List[Genre],
 )
 async def genre_details_list(
@@ -41,6 +44,8 @@ async def genre_details_list(
 
 @router.get(
     "/{genre_id}",
+    tags=["Genres"],
+    description="Returns information about genre according uuid.",
     response_model=Genre,
 )
 async def genre_details(

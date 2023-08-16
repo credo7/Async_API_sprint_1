@@ -10,6 +10,9 @@ router = APIRouter()
 
 @router.get(
     "/search",
+    summary="Search throw persons according name.",
+    description="Write full_name of person to field 'search' to get all persons with such name.",
+    tags=["Search"],
     response_model=List[Person],
 )
 async def person_details_list(
@@ -41,6 +44,8 @@ async def person_details_list(
 
 @router.get(
     "/{person_id}",
+    tags=["Persons"],
+    description="Returns information about person according uuid.",
     response_model=Person,
 )
 async def person_details(

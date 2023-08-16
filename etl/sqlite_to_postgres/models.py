@@ -15,12 +15,26 @@ class FilmWork:
     created_at: field(default_factory=datetime)
     updated_at: field(default_factory=datetime)
 
-    def __post_init__(self):
-        date_format = '%Y-%m-%d %H:%M:%S.%f+00'
-        if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(self.created_at, date_format).replace(tzinfo=timezone.utc)
-        if isinstance(self.updated_at, str):
-            self.updated_at = datetime.strptime(self.updated_at, date_format).replace(tzinfo=timezone.utc)
+    def __post_init__(
+        self,
+    ):
+        date_format = "%Y-%m-%d %H:%M:%S.%f+00"
+        if isinstance(
+            self.created_at,
+            str,
+        ):
+            self.created_at = datetime.strptime(
+                self.created_at,
+                date_format,
+            ).replace(tzinfo=timezone.utc)
+        if isinstance(
+            self.updated_at,
+            str,
+        ):
+            self.updated_at = datetime.strptime(
+                self.updated_at,
+                date_format,
+            ).replace(tzinfo=timezone.utc)
 
 
 @dataclass
@@ -31,12 +45,26 @@ class Genre:
     created_at: datetime
     updated_at: datetime
 
-    def __post_init__(self):
-        date_format = '%Y-%m-%d %H:%M:%S.%f+00'
-        if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(self.created_at, date_format).replace(tzinfo=timezone.utc)
-        if isinstance(self.updated_at, str):
-            self.updated_at = datetime.strptime(self.updated_at, date_format).replace(tzinfo=timezone.utc)
+    def __post_init__(
+        self,
+    ):
+        date_format = "%Y-%m-%d %H:%M:%S.%f+00"
+        if isinstance(
+            self.created_at,
+            str,
+        ):
+            self.created_at = datetime.strptime(
+                self.created_at,
+                date_format,
+            ).replace(tzinfo=timezone.utc)
+        if isinstance(
+            self.updated_at,
+            str,
+        ):
+            self.updated_at = datetime.strptime(
+                self.updated_at,
+                date_format,
+            ).replace(tzinfo=timezone.utc)
 
 
 @dataclass
@@ -46,12 +74,26 @@ class Person:
     created_at: datetime
     updated_at: datetime
 
-    def __post_init__(self):
-        date_format = '%Y-%m-%d %H:%M:%S.%f+00'
-        if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(self.created_at, date_format).replace(tzinfo=timezone.utc)
-        if isinstance(self.updated_at, str):
-            self.updated_at = datetime.strptime(self.updated_at, date_format).replace(tzinfo=timezone.utc)
+    def __post_init__(
+        self,
+    ):
+        date_format = "%Y-%m-%d %H:%M:%S.%f+00"
+        if isinstance(
+            self.created_at,
+            str,
+        ):
+            self.created_at = datetime.strptime(
+                self.created_at,
+                date_format,
+            ).replace(tzinfo=timezone.utc)
+        if isinstance(
+            self.updated_at,
+            str,
+        ):
+            self.updated_at = datetime.strptime(
+                self.updated_at,
+                date_format,
+            ).replace(tzinfo=timezone.utc)
 
 
 @dataclass
@@ -61,10 +103,18 @@ class GenreFilmwork:
     genre_id: uuid.UUID
     created_at: datetime
 
-    def __post_init__(self):
-        date_format = '%Y-%m-%d %H:%M:%S.%f+00'
-        if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(self.created_at, date_format).replace(tzinfo=timezone.utc)
+    def __post_init__(
+        self,
+    ):
+        date_format = "%Y-%m-%d %H:%M:%S.%f+00"
+        if isinstance(
+            self.created_at,
+            str,
+        ):
+            self.created_at = datetime.strptime(
+                self.created_at,
+                date_format,
+            ).replace(tzinfo=timezone.utc)
 
 
 @dataclass
@@ -75,7 +125,15 @@ class PersonFilmwork:
     role: str
     created_at: datetime
 
-    def __post_init__(self):
-        date_format = '%Y-%m-%d %H:%M:%S.%f+00'
-        if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(self.created_at, date_format).replace(tzinfo=timezone.utc)
+    def __post_init__(
+        self,
+    ):
+        date_format = "%Y-%m-%d %H:%M:%S.%f+00"
+        if isinstance(
+            self.created_at,
+            str,
+        ):
+            self.created_at = datetime.strptime(
+                self.created_at,
+                date_format,
+            ).replace(tzinfo=timezone.utc)

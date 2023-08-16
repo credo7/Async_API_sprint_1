@@ -1,11 +1,11 @@
 import orjson
+from pydantic import BaseModel
 
-from .base import BaseConfig
 from .genre import MovieGenre
 from .person import MoviePerson, MoviePersonName
 
 
-class Film(BaseConfig):
+class Film(BaseModel):
     """
     Represents a film.
 

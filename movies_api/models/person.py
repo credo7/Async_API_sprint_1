@@ -1,7 +1,7 @@
-from models.base import BaseConfig
+from pydantic import BaseModel
 
 
-class PersonFilms(BaseConfig):
+class PersonFilms(BaseModel):
     """
     Attributes:
         - id (str):
@@ -12,7 +12,7 @@ class PersonFilms(BaseConfig):
     roles: list[str | None] = []
 
 
-class MoviePerson(BaseConfig):
+class MoviePerson(BaseModel):
     """
     Represents a person associated with a film.
 
@@ -25,7 +25,7 @@ class MoviePerson(BaseConfig):
     full_name: str
 
 
-class MoviePersonName(BaseConfig):
+class MoviePersonName(BaseModel):
     """
     Represents a short version of person associated with a film.
 
@@ -36,7 +36,7 @@ class MoviePersonName(BaseConfig):
     full_name: str
 
 
-class Person(BaseConfig):
+class Person(BaseModel):
     """
     Represents a person associated with a film.
 

@@ -1,7 +1,7 @@
-from .base import BaseConfig
+from pydantic import BaseModel
 
 
-class MovieGenre(BaseConfig):
+class MovieGenre(BaseModel):
     """
     Represents a genre associated with a film
 
@@ -12,7 +12,7 @@ class MovieGenre(BaseConfig):
     name: str
 
 
-class Genre(BaseConfig):
+class Genre(BaseModel):
     """
     Represents a genre associated with a film
 
